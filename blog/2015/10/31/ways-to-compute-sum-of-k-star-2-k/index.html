@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - David's Blog</title>
+  <title>Ways to Compute Sum of K*2^k - David's Blog</title>
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content=" Blog Archive 2015 Ways to Compute Sum of K*2^k
-Oct 31 2015 posted in concrete_math Recent Posts Ways to Compute Sum of K*2^k ">
+  <meta name="description" content="Problem: Method 1: perturbation Method 2: take derivative take the derivative of both sides: Method 3: difference operator $\Delta$ So, ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ Oct 31 2015 posted in concrete_math Recent Posts Ways to Compute Sum of K*2^k ">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://davidhuangdw.github.io/blog/archives/">
+  <link rel="canonical" href="http://davidhuangdw.github.io/blog/2015/10/31/ways-to-compute-sum-of-k-star-2-k/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="David's Blog" type="application/atom+xml">
@@ -65,35 +64,111 @@ Oct 31 2015 posted in concrete_math Recent Posts Ways to Compute Sum of K*2^k ">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">Ways to Compute Sum of K*2^k</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-31T16:51:15+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>4:51 pm</span></time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><h2 id="problem">Problem:</h2>
+<p><script type="math/tex">S_{n} = \sum_{k=0}^{n} k*2^{k}</script></p>
 
-  
-  <h2>2015</h2>
+<h2 id="method-1-perturbation">Method 1: perturbation</h2>
 
-<article>
-  
-<h1><a href="/blog/2015/10/31/ways-to-compute-sum-of-k-star-2-k/">Ways to Compute Sum of K*2^k</a></h1>
-<time datetime="2015-10-31T16:51:15+08:00" pubdate><span class='month'>Oct</span> <span class='day'>31</span> <span class='year'>2015</span></time>
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+S_{n+1}
+&= S_{n} + (n+1) \cdot 2^{n+1}  \\
+&= 0 + \sum_{k=1}^{n+1} k \cdot 2^{k} \\
+&= 0 + \sum_{k=0}^{n} (k+1) \cdot 2^{k+1} \\
+&= 2\cdot S_{n} + \sum_0^n 2^{k+1} \\
+&= 2\cdot S_{n} + 2^{n+2} - 2 \\
+\end{align} %]]></script>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/concrete-math/'>concrete_math</a></span>
-</footer>
+<script type="math/tex; mode=display">S_{n} = (n-1) \cdot 2^{n+1} - 2</script>
 
+<h2 id="method-2-take-derivative">Method 2: take derivative</h2>
 
-</article>
+<script type="math/tex; mode=display">\sum_{0}^{n} x^{k} = \frac{x^{n+1}-1}{x-1}</script>
 
+<p>take the derivative of both sides:</p>
+
+<script type="math/tex; mode=display">\sum_{0}^{n} k\cdot x^{k-1}
+= \frac{...}{(x-1)^2}
+= \frac{1 - (n+1)\cdot x^n + n\cdot x^{n+1} } {(x-1)^2}</script>
+
+<h2 id="method-3-difference-operator-delta">Method 3: difference operator $\Delta$</h2>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+\sum x \cdot 2^x
+&= x\cdot 2^x - \sum 1 \cdot 2^{x+1} \\
+&= x\cdot 2^x - 2^{x+1} + C
+\end{align} %]]></script>
+
+<p>So,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+\sum_{0}^{n} k \cdot 2^k
+&= x\cdot 2^x - 2^{x+1} \mid_{0}^{n+1} \\
+&= (n-1) \cdot 2^{n+1} - 2
+\end{align} %]]></script>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-31T16:51:15+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>4:51 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/concrete-math/'>concrete_math</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://davidhuangdw.github.io/blog/2015/10/31/ways-to-compute-sum-of-k-star-2-k/" data-via="" data-counturl="http://davidhuangdw.github.io/blog/2015/10/31/ways-to-compute-sum-of-k-star-2-k/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
