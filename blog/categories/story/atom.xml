@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[David's Blog]]></title>
-  <link href="http://davidhuangdw.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Story | David's Blog]]></title>
+  <link href="http://davidhuangdw.github.io/blog/categories/story/atom.xml" rel="self"/>
   <link href="http://davidhuangdw.github.io/"/>
   <updated>2015-11-03T19:37:32+08:00</updated>
   <id>http://davidhuangdw.github.io/</id>
@@ -708,60 +708,6 @@
 
 <p>我发现男人右边腋下夹着某样东西，仔细一看，那似乎是块标语牌。</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ways to Compute Sum of K*2^k]]></title>
-    <link href="http://davidhuangdw.github.io/blog/2015/10/31/ways-to-compute-sum-of-k-star-2-k/"/>
-    <updated>2015-10-31T16:51:15+08:00</updated>
-    <id>http://davidhuangdw.github.io/blog/2015/10/31/ways-to-compute-sum-of-k-star-2-k</id>
-    <content type="html"><![CDATA[<h2 id="problem">Problem:</h2>
-<p><script type="math/tex">S_{n} = \sum_{k=0}^{n} k*2^{k}</script></p>
-
-<h2 id="method-1-perturbation">Method 1: perturbation</h2>
-
-<script type="math/tex; mode=display">% &lt;![CDATA[
-\begin{align}
-S_{n+1}
-&= S_{n} + (n+1) \cdot 2^{n+1}  \\
-&= 0 + \sum_{k=1}^{n+1} k \cdot 2^{k} \\
-&= 0 + \sum_{k=0}^{n} (k+1) \cdot 2^{k+1} \\
-&= 2\cdot S_{n} + \sum_0^n 2^{k+1} \\
-&= 2\cdot S_{n} + 2^{n+2} - 2 \\
-\end{align} %]]&gt;</script>
-
-<script type="math/tex; mode=display">S_{n} = (n-1) \cdot 2^{n+1} - 2</script>
-
-<h2 id="method-2-take-derivative">Method 2: take derivative</h2>
-
-<!-- more -->
-
-<script type="math/tex; mode=display">\sum_{0}^{n} x^{k} = \frac{x^{n+1}-1}{x-1}</script>
-
-<p>take the derivative of both sides:</p>
-
-<script type="math/tex; mode=display">\sum_{0}^{n} k\cdot x^{k-1}
-= \frac{...}{(x-1)^2}
-= \frac{1 - (n+1)\cdot x^n + n\cdot x^{n+1} } {(x-1)^2}</script>
-
-<h2 id="method-3-difference-operator-delta">Method 3: difference operator $\Delta$</h2>
-
-<script type="math/tex; mode=display">% &lt;![CDATA[
-\begin{align}
-\sum x \cdot 2^x
-&= x\cdot 2^x - \sum 1 \cdot 2^{x+1} \\
-&= x\cdot 2^x - 2^{x+1} + C
-\end{align} %]]&gt;</script>
-
-<p>So,</p>
-
-<script type="math/tex; mode=display">% &lt;![CDATA[
-\begin{align}
-\sum_{0}^{n} k \cdot 2^k
-&= x\cdot 2^x - 2^{x+1} \mid_{0}^{n+1} \\
-&= (n-1) \cdot 2^{n+1} - 2
-\end{align} %]]&gt;</script>
 ]]></content>
   </entry>
   
