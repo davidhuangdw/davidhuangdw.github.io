@@ -4,7 +4,7 @@
   <title><![CDATA[David's Blog]]></title>
   <link href="http://davidhuangdw.github.io/atom.xml" rel="self"/>
   <link href="http://davidhuangdw.github.io/"/>
-  <updated>2015-11-08T16:29:13+08:00</updated>
+  <updated>2015-11-08T16:32:44+08:00</updated>
   <id>http://davidhuangdw.github.io/</id>
   <author>
     <name><![CDATA[David]]></name>
@@ -50,6 +50,8 @@ x-1 &lt; n \le x
 \Longleftrightarrow
 \lfloor{x}\rfloor = n
 $</p>
+
+<!--more-->
 
 <p><strong>Prove</strong>:
 Because only the first(max) integer has so tight relation to $x$;</p>
