@@ -4,7 +4,7 @@
   <title><![CDATA[David's Blog]]></title>
   <link href="http://davidhuangdw.github.io/atom.xml" rel="self"/>
   <link href="http://davidhuangdw.github.io/"/>
-  <updated>2015-11-08T16:32:44+08:00</updated>
+  <updated>2015-11-08T16:44:35+08:00</updated>
   <id>http://davidhuangdw.github.io/</id>
   <author>
     <name><![CDATA[David]]></name>
@@ -91,7 +91,7 @@ Because $x$ never touch $\lfloor{x}\rfloor+1 \le n$.</p>
 
 <p>5.</p>
 
-<p>For increasing function $f(x)$, if $f^-1(n)$ is also an integer
+<p>For increasing function $f(x)$, if $f^{-1}(n)$ is also an integer
 (
 $
 f(x) = integer \Rightarrow x = integer
@@ -111,10 +111,10 @@ $</p>
 <p>so, $m \le f(\lfloor{x}\rfloor &lt; m+1$</p>
 
 <p>due to $f(x)$ increasing, so
-$f^-1(m) \le \lfloor{x}\rfloor &lt; f^-1(m+1)$</p>
+$f^{-1}(m) \le \lfloor{x}\rfloor &lt; f^{-1}(m+1)$</p>
 
-<p>due to $f^-1(m)$ also integer, so
-$f^-1(m) \le x &lt; f^-1(m+1)$</p>
+<p>due to $f^{-1}(m)$ also integer, so
+$f^{-1}(m) \le x &lt; f^{-1}(m+1)$</p>
 
 <p>so, $m \le f(x) &lt; m+1$</p>
 
