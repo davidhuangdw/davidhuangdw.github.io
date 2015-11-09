@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Gcj | David's Blog]]></title>
+  <link href="http://davidhuangdw.github.io/blog/categories/gcj/atom.xml" rel="self"/>
+  <link href="http://davidhuangdw.github.io/"/>
+  <updated>2015-11-09T19:28:32+08:00</updated>
+  <id>http://davidhuangdw.github.io/</id>
+  <author>
+    <name><![CDATA[David]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Gcj 2015 Round 1a Problem b.haircut]]></title>
+    <link href="http://davidhuangdw.github.io/blog/2015/11/09/gcj-2015-round-1a-b-dot-haircut/"/>
+    <updated>2015-11-09T17:52:06+08:00</updated>
+    <id>http://davidhuangdw.github.io/blog/2015/11/09/gcj-2015-round-1a-b-dot-haircut</id>
+    <content type="html"><![CDATA[<h2 id="problem">Problem</h2>
+
+<p><a href="https://code.google.com/codejam/contest/4224486/dashboard#s=p1&amp;a=1">problem link: B.haircut</a></p>
+
+<p>You are waiting in a long line to get a haircut at a trendy barber shop. The shop has $B$ barbers on duty, and they are numbered 1 through $B$. It always takes the kth barber exactly $M_k$ minutes to cut a customer’s hair, and a barber can only cut one customer’s hair at a time. Once a barber finishes cutting hair, he is immediately free to help another customer.</p>
+
+<p>While the shop is open, the customer at the head of the queue always goes to the lowest-numbered barber who is available. When no barber is available, that customer waits until at least one becomes available.</p>
+
+<p>You are the $N$th person in line, and the shop has just opened. Which barber will cut your hair?</p>
+
+<!--more-->
+
+<h3 id="limits">Limits</h3>
+
+<p>$1 ≤ N ≤ 109$</p>
+
+<p>$1 ≤ B ≤ 1000$</p>
+
+<p>$1 ≤ M_k ≤ 100000$</p>
+
+<h2 id="analysis">Analysis</h2>
+
+<p>What to iterate/search?
+Search what can help us, (a)validate current result is valid or not(whether exactly n customers served), (b) and on the other hand, find out which barber it is?</p>
+
+<p>It seems given ‘which barber’ doesn’t help a lot.
+How about search nth customer’s start time t? It seems we can use the last start_time to calculate total amount of customers, and then make a comparison/validation.</p>
+
+<p>Given time t, we could calculate the amount of customers whose start_time &lt;= t:</p>
+
+<p>1) any customer must come before or equal t: $(n_k-1)M_k \le t$</p>
+
+<p>2) also, each baber’s finish_time must greater than t: $n_k M_k &gt; t$</p>
+
+<p>so, we have</p>
+
+<p>$n_k-1 \le \frac{t}{M_k} &lt; n_k \Rightarrow n_k = \lfloor{\frac{t}{M_k}}\rfloor + 1$</p>
+
+<p>After binary_search on t, and validate each t using calculated_customer_amount:
+whose complexity is $O(b \cdot log(n \cdot mi_{max}))$</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>``` c++ full code: b.haircut.cpp
+#include <iostream>
+using namespace std;</iostream></p>
+
+<p>typedef long long ll;
+const int MB=1000+5;
+const ll MM=100*1000+5;
+int T;
+ll n,b,m[MB];</p>
+
+<p>ll customer_amount_le(ll t){
+    if(t&lt;0) return 0;
+    ll sum = 0;
+    for(int i=0; i&lt;b; i++)
+        sum += t/m[i]+1;
+    return sum;
+}</p>
+
+<p>ll least_t_with_enough_amount(){
+    ll low=0, high=n*MM, res=low;
+    while(low &lt;= high){
+        ll md = (low+high)»1;
+        ll amount = customer_amount_le(md);
+        if(amount &gt;= n){ res=md; high=md-1;}
+        else low=md+1;
+    }
+    return res;
+}</p>
+
+<p>int position(){
+    ll t = least_t_with_enough_amount();
+    ll amount_at_t = n - customer_amount_le(t-1);
+    for(int i=0; i&lt;b; i++){
+        if(t%m[i] == 0) amount_at_t–;
+        if(amount_at_t==0) return i;
+    }
+    return -1000; //never reach
+}</p>
+
+<p>int main(){
+    cin»T;
+    for(int icase=1; icase&lt;=T; icase++){
+        cin»b»n;
+        for(int i=0; i&lt;b; i++)
+            cin»m[i];</p>
+
+<pre><code>    cout&lt;&lt;"Case #"&lt;&lt;icase&lt;&lt;": "&lt;&lt;position()+1&lt;&lt;endl;
+}
+return 0; }
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

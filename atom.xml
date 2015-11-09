@@ -4,7 +4,7 @@
   <title><![CDATA[David's Blog]]></title>
   <link href="http://davidhuangdw.github.io/atom.xml" rel="self"/>
   <link href="http://davidhuangdw.github.io/"/>
-  <updated>2015-11-08T16:44:35+08:00</updated>
+  <updated>2015-11-09T19:28:32+08:00</updated>
   <id>http://davidhuangdw.github.io/</id>
   <author>
     <name><![CDATA[David]]></name>
@@ -12,6 +12,156 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Gcj 2015 Round 1a Problem b.haircut]]></title>
+    <link href="http://davidhuangdw.github.io/blog/2015/11/09/gcj-2015-round-1a-b-dot-haircut/"/>
+    <updated>2015-11-09T17:52:06+08:00</updated>
+    <id>http://davidhuangdw.github.io/blog/2015/11/09/gcj-2015-round-1a-b-dot-haircut</id>
+    <content type="html"><![CDATA[<h2 id="problem">Problem</h2>
+
+<p><a href="https://code.google.com/codejam/contest/4224486/dashboard#s=p1&amp;a=1">problem link: B.haircut</a></p>
+
+<p>You are waiting in a long line to get a haircut at a trendy barber shop. The shop has $B$ barbers on duty, and they are numbered 1 through $B$. It always takes the kth barber exactly $M_k$ minutes to cut a customer’s hair, and a barber can only cut one customer’s hair at a time. Once a barber finishes cutting hair, he is immediately free to help another customer.</p>
+
+<p>While the shop is open, the customer at the head of the queue always goes to the lowest-numbered barber who is available. When no barber is available, that customer waits until at least one becomes available.</p>
+
+<p>You are the $N$th person in line, and the shop has just opened. Which barber will cut your hair?</p>
+
+<!--more-->
+
+<h3 id="limits">Limits</h3>
+
+<p>$1 ≤ N ≤ 109$</p>
+
+<p>$1 ≤ B ≤ 1000$</p>
+
+<p>$1 ≤ M_k ≤ 100000$</p>
+
+<h2 id="analysis">Analysis</h2>
+
+<p>What to iterate/search?
+Search what can help us, (a)validate current result is valid or not(whether exactly n customers served), (b) and on the other hand, find out which barber it is?</p>
+
+<p>It seems given ‘which barber’ doesn’t help a lot.
+How about search nth customer’s start time t? It seems we can use the last start_time to calculate total amount of customers, and then make a comparison/validation.</p>
+
+<p>Given time t, we could calculate the amount of customers whose start_time &lt;= t:</p>
+
+<p>1) any customer must come before or equal t: $(n_k-1)M_k \le t$</p>
+
+<p>2) also, each baber’s finish_time must greater than t: $n_k M_k &gt; t$</p>
+
+<p>so, we have</p>
+
+<p>$n_k-1 \le \frac{t}{M_k} &lt; n_k \Rightarrow n_k = \lfloor{\frac{t}{M_k}}\rfloor + 1$</p>
+
+<p>After binary_search on t, and validate each t using calculated_customer_amount:
+whose complexity is $O(b \cdot log(n \cdot mi_{max}))$</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>full code: b.haircut.cpp</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="cp">#include &lt;iostream&gt;</span>
+</span><span class="line"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">typedef</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">ll</span><span class="p">;</span>
+</span><span class="line"><span class="k">const</span> <span class="kt">int</span> <span class="n">MB</span><span class="o">=</span><span class="mi">1000</span><span class="o">+</span><span class="mi">5</span><span class="p">;</span>
+</span><span class="line"><span class="k">const</span> <span class="n">ll</span> <span class="n">MM</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="mi">1000</span><span class="o">+</span><span class="mi">5</span><span class="p">;</span>
+</span><span class="line"><span class="kt">int</span> <span class="n">T</span><span class="p">;</span>
+</span><span class="line"><span class="n">ll</span> <span class="n">n</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">m</span><span class="p">[</span><span class="n">MB</span><span class="p">];</span>
+</span><span class="line">
+</span><span class="line"><span class="n">ll</span> <span class="nf">customer_amount_le</span><span class="p">(</span><span class="n">ll</span> <span class="n">t</span><span class="p">){</span>
+</span><span class="line">    <span class="k">if</span><span class="p">(</span><span class="n">t</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line">    <span class="n">ll</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">b</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">        <span class="n">sum</span> <span class="o">+=</span> <span class="n">t</span><span class="o">/</span><span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="n">ll</span> <span class="nf">least_t_with_enough_amount</span><span class="p">(){</span>
+</span><span class="line">    <span class="n">ll</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">n</span><span class="o">*</span><span class="n">MM</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="n">low</span><span class="p">;</span>
+</span><span class="line">    <span class="k">while</span><span class="p">(</span><span class="n">low</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">){</span>
+</span><span class="line">        <span class="n">ll</span> <span class="n">md</span> <span class="o">=</span> <span class="p">(</span><span class="n">low</span><span class="o">+</span><span class="n">high</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+</span><span class="line">        <span class="n">ll</span> <span class="n">amount</span> <span class="o">=</span> <span class="n">customer_amount_le</span><span class="p">(</span><span class="n">md</span><span class="p">);</span>
+</span><span class="line">        <span class="k">if</span><span class="p">(</span><span class="n">amount</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">){</span> <span class="n">res</span><span class="o">=</span><span class="n">md</span><span class="p">;</span> <span class="n">high</span><span class="o">=</span><span class="n">md</span><span class="o">-</span><span class="mi">1</span><span class="p">;}</span>
+</span><span class="line">        <span class="k">else</span> <span class="n">low</span><span class="o">=</span><span class="n">md</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">int</span> <span class="nf">position</span><span class="p">(){</span>
+</span><span class="line">    <span class="n">ll</span> <span class="n">t</span> <span class="o">=</span> <span class="n">least_t_with_enough_amount</span><span class="p">();</span>
+</span><span class="line">    <span class="n">ll</span> <span class="kt">amount_at_t</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">customer_amount_le</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span><span class="line">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">b</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class="line">        <span class="k">if</span><span class="p">(</span><span class="n">t</span><span class="o">%</span><span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="kt">amount_at_t</span><span class="o">--</span><span class="p">;</span>
+</span><span class="line">        <span class="k">if</span><span class="p">(</span><span class="kt">amount_at_t</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="k">return</span> <span class="o">-</span><span class="mi">1000</span><span class="p">;</span> <span class="c1">//never reach</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+</span><span class="line">    <span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">T</span><span class="p">;</span>
+</span><span class="line">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">icase</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">icase</span><span class="o">&lt;=</span><span class="n">T</span><span class="p">;</span> <span class="n">icase</span><span class="o">++</span><span class="p">){</span>
+</span><span class="line">        <span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">b</span><span class="o">&gt;&gt;</span><span class="n">n</span><span class="p">;</span>
+</span><span class="line">        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">b</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">            <span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class="line">
+</span><span class="line">        <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Case #&quot;</span><span class="o">&lt;&lt;</span><span class="n">icase</span><span class="o">&lt;&lt;</span><span class="s">&quot;: &quot;</span><span class="o">&lt;&lt;</span><span class="n">position</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Understanding Floor/ceiling (1)]]></title>
