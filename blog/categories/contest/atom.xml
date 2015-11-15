@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Contest | David's Blog]]></title>
   <link href="http://davidhuangdw.github.io/blog/categories/contest/atom.xml" rel="self"/>
   <link href="http://davidhuangdw.github.io/"/>
-  <updated>2015-11-09T19:29:52+08:00</updated>
+  <updated>2015-11-15T12:16:29+08:00</updated>
   <id>http://davidhuangdw.github.io/</id>
   <author>
     <name><![CDATA[David]]></name>
@@ -12,6 +12,90 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Gcj 2015 Round 1b Problem_a Counter Culture]]></title>
+    <link href="http://davidhuangdw.github.io/blog/2015/11/15/gcj-2015-round-1b-a-dot-counter-culture/"/>
+    <updated>2015-11-15T11:49:56+08:00</updated>
+    <id>http://davidhuangdw.github.io/blog/2015/11/15/gcj-2015-round-1b-a-dot-counter-culture</id>
+    <content type="html"><![CDATA[<h2 id="problem">Problem</h2>
+
+<p><a href="https://code.google.com/codejam/contest/8224486/dashboard#s=p0&amp;a=0">problem link: A.counter_culture</a></p>
+
+<p>In the Counting Poetry Slam, a performer takes the microphone, chooses a number N, and counts aloud from 1 to N. That is, she starts by saying 1, and then repeatedly says the number that is 1 greater than the previous number she said, stopping after she has said N.</p>
+
+<p>It’s your turn to perform, but you find this process tedious, and you want to add a twist to speed it up: sometimes, instead of adding 1 to the previous number, you might reverse the digits of the number (removing any leading zeroes that this creates). For example, after saying “16”, you could next say either “17” or “61”; after saying “2300”, you could next say either “2301” or “32”. You may reverse as many times as you want (or not at all) within a performance.</p>
+
+<p>The first number you say must be 1; what is the fewest number of numbers you will need to say in order to reach the number N? 1 and N count toward this total. If you say the same number multiple times, each of those times counts separately.</p>
+
+<!--more-->
+
+<h3 id="limits">Limits</h3>
+
+<p>$1 \le N \le 10^{14}$</p>
+
+<h2 id="analysis">Analysis</h2>
+
+<p>We have a few observations:</p>
+
+<ol>
+  <li>Because increase or reverse are symmetric operations, so count 1 to N, equals count N to 1;</li>
+  <li>when N to 1, we will always reach number like ‘10..001’ with same length, because reverse_operation won’t decrease digit length;</li>
+  <li>only 2 ways from N to ‘10..001’:
+    <ol>
+      <li>decrease directly</li>
+      <li>decrease suffix, reverse, decrease prefix
+        <ul>
+          <li>for example: 12345 =&gt; 12001 =&gt; 10021 =&gt; 10001, which takes (345-1)+1+(21-1)=365 steps</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p>Complexity: per digit length a round, and only string manipulation per round, so it takes $O(log{n})$</p>
+
+<p>``` ruby full ruby code: a.counter.rb
+def split(n, pre_sz)
+  n = n.to_s
+  [n[0…pre_sz], n[pre_sz..-1]]
+end</p>
+
+<p>def by_rev(n, base, pre_sz)
+  # from ‘10…001’ to n: count by rev once</p>
+
+<p>pre, suf = split(n, pre_sz)
+  suf_cnt = suf.to_i - 1 # e.g. ‘12345’ =&gt; ‘12001’
+  pre_cnt = pre.reverse.to_i - 1 # e.g. ‘10021’ =&gt; ‘10001’</p>
+
+<p>suf_cnt + 1 + pre_cnt
+end</p>
+
+<p>def count(n)
+  n = n.to_i
+  return n if n&lt;= 11
+  return count(n-1)+1 if n.to_s[-1] == ‘0’</p>
+
+<p>sz = n.to_s.size
+  base = “1#{‘0’<em>(sz-2)}1” # from ‘10…001’
+  base_cnt = count(‘9’</em>(sz-1))+2</p>
+
+<p>offset = n-base.to_i
+  base_cnt + [offset, by_rev(n, base, sz/2)].min
+end</p>
+
+<p>def main
+  ncase,icase = gets,1
+  while n=gets
+    puts “Case ##{icase}: #{count(n)}”
+    icase += 1
+  end
+end</p>
+
+<p>main
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Gcj 2015 Round 1a Problem b.haircut]]></title>
@@ -48,9 +132,9 @@ How about search nth customer’s start time t? It seems we can use the last sta
 
 <p>Given time t, we could calculate the amount of customers whose start_time &lt;= t:</p>
 
-<p>1) any customer must come before or equal t: $(n_k-1)M_k \le t$</p>
+<p>1) any customer must come before or equal t, including each barber’s last customer: $(n_k-1)M_k \le t$</p>
 
-<p>2) also, each baber’s finish_time must greater than t: $n_k M_k &gt; t$</p>
+<p>2) also, each barber’s first excluded customer must came later than t: $((n_k+1)-1) \cdot M_k &gt; t$</p>
 
 <p>so, we have</p>
 

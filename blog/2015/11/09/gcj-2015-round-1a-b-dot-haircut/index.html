@@ -114,9 +114,9 @@ How about search nth customer’s start time t? It seems we can use the last sta
 
 <p>Given time t, we could calculate the amount of customers whose start_time &lt;= t:</p>
 
-<p>1) any customer must come before or equal t: $(n_k-1)M_k \le t$</p>
+<p>1) any customer must come before or equal t, including each barber’s last customer: $(n_k-1)M_k \le t$</p>
 
-<p>2) also, each baber’s finish_time must greater than t: $n_k M_k &gt; t$</p>
+<p>2) also, each barber’s first excluded customer must came later than t: $((n_k+1)-1) \cdot M_k &gt; t$</p>
 
 <p>so, we have</p>
 
@@ -267,6 +267,8 @@ whose complexity is $O(b \cdot log(n \cdot mi_{max}))$</p>
         <a class="basic-alignment left" href="/blog/2015/11/08/understanding-floor-slash-ceiling-1/" title="Previous Post: Understanding floor/ceiling (1)">&laquo; Understanding floor/ceiling (1)</a>
       
       
+        <a class="basic-alignment right" href="/blog/2015/11/15/gcj-2015-round-1b-a-dot-counter-culture/" title="Next Post: gcj 2015 round 1b problem_a counter culture">gcj 2015 round 1b problem_a counter culture &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -278,6 +280,10 @@ whose complexity is $O(b \cdot log(n \cdot mi_{max}))$</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/11/15/gcj-2015-round-1b-a-dot-counter-culture/">Gcj 2015 Round 1b Problem_a Counter Culture</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/11/09/gcj-2015-round-1a-b-dot-haircut/">Gcj 2015 Round 1a Problem b.haircut</a>
